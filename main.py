@@ -65,7 +65,16 @@ def main() -> None:
     for handler in handlers:
         application.add_handler(handler)
 
-    application.run_polling()
+    # application.run_polling()
+
+    application.run_webhook(
+        listen='0.0.0.0',
+        port=int(os.getenv("PORT")),
+        secret_token=os.getenv("WEBHOOK_TOKEN"),
+        key='private.key',
+        cert='cert.pem',
+        webhook_url=os.getenv("RENDER_EXTERNAL_URL"),
+    )
 
 
 if __name__ == "__main__":
