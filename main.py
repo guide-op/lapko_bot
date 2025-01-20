@@ -71,8 +71,8 @@ def main() -> None:
         listen='0.0.0.0',
         port=int(os.getenv("PORT")),
         secret_token=os.getenv("WEBHOOK_TOKEN"),
-        key='private.key',
-        cert='cert.pem',
+        # key='private.key',
+        # cert='cert.pem',
         webhook_url=os.getenv("RENDER_EXTERNAL_URL"),
     )
 
