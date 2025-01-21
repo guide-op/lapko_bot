@@ -11,7 +11,8 @@ from telegram.ext import (
     filters,
 )
 
-from src.lapko_bot.quotify import fix
+from src.lapko_bot.string_processors import fix
+from src.lapko_bot.assets import lang_strings
 
 # Enable logging
 logging.basicConfig(
@@ -23,10 +24,21 @@ logger = logging.getLogger(__name__)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=(
-            "Привіт! Я Лапко, і в мене лапки! 🐾 Напиши мені текст, і я спробую"
-            " привести в ньому до ладу лапки та тире."
-        ),
+        text=lang_strings["on_cmd_start"],
+    )
+
+
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=lang_strings["on_cmd_help"],
+    )
+
+
+async def settings(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=lang_strings["on_cmd_settings"],
     )
 
 
@@ -39,7 +51,7 @@ async def reply_with_fix(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def unknown_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Га?",
+        text=lang_strings["on_cmd_<unknown>"],
     )
 
 
@@ -51,6 +63,8 @@ def main() -> None:
 
     handlers = [
         CommandHandler("start", start),
+        CommandHandler("help", start),
+        CommandHandler("settings", start),
         MessageHandler(filters.TEXT & (~filters.COMMAND), reply_with_fix),
         MessageHandler(filters.COMMAND, unknown_cmd),
     ]

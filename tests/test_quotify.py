@@ -1,6 +1,6 @@
 # import pytest
 
-from src.lapko_bot.quotify import fix
+from lapko_bot.string_processors import fix
 
 test_data_ab = []
 with open("tests/quotify_test_data_ab.txt", "r", encoding="utf8") as f:

@@ -3,8 +3,8 @@ import re
 
 def quotify(text: str) -> str:
     # Sub quote sequences at word and punctuation boundaries
-    text = re.sub(r'"+(?=[\w])', lambda t: "«" * len(t.group(0)), text)
-    text = re.sub(r'(?<=[\w?!.])"+', lambda t: "»" * len(t.group(0)), text)
+    text = re.sub(r'["“]+(?=[\w])', lambda t: "«" * len(t.group(0)), text)
+    text = re.sub(r'(?<=[\w?!.])["”]+', lambda t: "»" * len(t.group(0)), text)
 
     # Sub nested quotes
     quote_nesting_level = 0
@@ -24,9 +24,9 @@ def quotify(text: str) -> str:
 
 def emdashify(text: str) -> str:
     # Separate hyphens and en dashes that are glued to words from one side
-    text = re.sub(r"(?<=\w)(--?-?|–)(?=\W)", r" \1", text)
-    text = re.sub(r"(?<=\W)(--?-?|–)(?=\w)", r"\1 ", text)
-    text = re.sub(r"^(--?-?|–)(?=\w)", r"\1 ", text)
+    text = re.sub(r"(?<=\w)(--?-?|–|—)(?=\W)", r" \1", text)
+    text = re.sub(r"(?<=\W)(--?-?|–|—)(?=\w)", r"\1 ", text)
+    text = re.sub(r"^(--?-?|–|—)(?=\w)", r"\1 ", text)
 
     # Convert free-floating hyphens and en dashes
     text = re.sub(r"(?<=\W)(--?-?|–)(?=\W)", "—", text)
