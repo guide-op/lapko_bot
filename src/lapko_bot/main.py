@@ -11,7 +11,7 @@ from telegram.ext import (
     filters,
 )
 
-from quotify import fix
+from src.lapko_bot.quotify import fix
 
 # Enable logging
 logging.basicConfig(
