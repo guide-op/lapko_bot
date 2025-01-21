@@ -25,8 +25,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    text = text.replace('“', '«').replace('”', '»')
     await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=update.message.text
+        chat_id=update.effective_chat.id, text=text
     )
 
 
