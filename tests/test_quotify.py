@@ -41,8 +41,8 @@ def test_quotify_003():
     assert fix(a) == b
 
 
-# def test_quotify_with_empty_string():
-#     assert quotify("") == '""'
+def test_quotify_with_empty_string():
+    assert fix("") == ""
 
 
 # def test_quotify_with_special_characters():
