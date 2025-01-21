@@ -11,6 +11,8 @@ from telegram.ext import (
     filters,
 )
 
+from quotify import fix
+
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -20,34 +22,24 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
-        chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!"
-    )
-
-
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    text = text.replace('“', '«').replace('”', '»')
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=text
-    )
-
-
-async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text_caps = " ".join(context.args).upper()
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
-
-
-async def send_test_txt(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_document(
         chat_id=update.effective_chat.id,
-        document="content/mytext.txt",
+        text=(
+            "Привіт! Я Лапко, і в мене лапки! 🐾 Напиши мені текст, і я спробую"
+            " привести у ньому до ладу лапки та тире."
+        ),
+    )
+
+
+async def reply_with_fix(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=fix(update.message.text)
     )
 
 
 async def unknown_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Sorry, I didn't understand that command.",
+        text="Га?",
     )
 
 
@@ -59,8 +51,7 @@ def main() -> None:
 
     handlers = [
         CommandHandler("start", start),
-        CommandHandler("caps", caps),
-        MessageHandler(filters.TEXT & (~filters.COMMAND), echo),
+        MessageHandler(filters.TEXT & (~filters.COMMAND), reply_with_fix),
         MessageHandler(filters.COMMAND, unknown_cmd),
     ]
 
