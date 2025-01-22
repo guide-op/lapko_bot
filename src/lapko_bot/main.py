@@ -11,8 +11,9 @@ from telegram.ext import (
     filters,
 )
 
+from src.lapko_bot.helpers.enums import BotResponseMessageTypes
+from src.lapko_bot.helpers.message_composer import compose_message
 from src.lapko_bot.string_processors import fix
-from src.lapko_bot.assets import lang_strings
 
 # Enable logging
 logging.basicConfig(
@@ -22,36 +23,49 @@ logger = logging.getLogger(__name__)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    response_message = compose_message(BotResponseMessageTypes.START)
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=lang_strings["on_cmd_start"],
+        text=response_message,
     )
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    response_message = compose_message(BotResponseMessageTypes.HELP)
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=lang_strings["on_cmd_help"],
+        text=response_message,
     )
 
 
 async def settings(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    response_message = compose_message(BotResponseMessageTypes.SETTINGS)
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=lang_strings["on_cmd_settings"],
+        text=response_message,
     )
 
 
 async def reply_with_fix(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=fix(update.message.text)
-    )
+    text, warnings = fix(update.message.text)
+    fixed_text = compose_message(BotResponseMessageTypes.REPLY_WITH_FIX, text=text)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=fixed_text)
+    if warnings:
+        warnings_text = compose_message(
+            BotResponseMessageTypes.REPLY_WITH_WARNINGS,
+            quote_warnings=warnings,
+            text=text,
+        )
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=warnings_text
+        )
 
 
 async def unknown_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    response_message = compose_message(BotResponseMessageTypes.UNKNOWN_CMD)
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=lang_strings["on_cmd_<unknown>"],
+        text=response_message,
     )
 
 

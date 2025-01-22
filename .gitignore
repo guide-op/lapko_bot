@@ -173,6 +173,9 @@ cython_debug/
 # Bookkeeping
 todo
 
+# Diagnostics
+playground.ipynb
+
 # Secrets
 *.pem
 *.key
