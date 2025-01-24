@@ -21,6 +21,7 @@ test_cases = [
     ("input_dash_direct.txt", "output_dash_direct.txt"),
     ("input_dash_i_i.txt", "output_dash_i_i.txt"),
     ("input_freeform.txt", "output_freeform.txt"),
+    ("input_freeform_02.txt", "output_freeform_02.txt"),
     ("input_post.txt", "output_post.txt"),
 ]
 

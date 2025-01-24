@@ -85,13 +85,15 @@ def dashify(text: str) -> str:
     text = re.sub(r"(?<=[IVXLCDM])\s*(-|–|—)\s*(?=[IVXLCDM])", r"–", text)
 
     # Detach hyphens and dashes that are attached to words from one side
-    text = re.sub(r"(?<=\w)(-|–|—)(?=\W|$)", r" \1", text)
-    text = re.sub(r"(?<=^|\W)(-|–|—)(?=\w)", r"\1 ", text)
+    # text = re.sub(r"(?<=\w)(-|–|—)(?=\W|$)", r" \1", text)
+    # text = re.sub(r"(?<=^|\W)(-|–|—)(?=\w)", r"\1 ", text)
+    text = re.sub(r"(?<=\S)(-|–|—)(?=\s|$)", r" \1", text)
+    text = re.sub(r"(?<=^|\s)(-|–|—)(?=\S)", r"\1 ", text)
 
     # Detach em dashes that are attached to words from both sides
     # Also detach en dashes that are attached to word-letters
     #   (not digits or roman numerals) from both sides
-    text = re.sub(r"(?<=\w)(—)(?=\w)", r" \1 ", text)
+    text = re.sub(r"(?<=\S)(—)(?=\S)", r" \1 ", text)
     text = re.sub(r"(?V1)(?<=[\p{L}--IVXLCDM])(–)(?=[\p{L}--IVXLCDM])", r" \1 ", text)
 
     # Convert free-floating hyphens and en dashes into em dashes
