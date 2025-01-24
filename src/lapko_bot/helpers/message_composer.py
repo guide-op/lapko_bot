@@ -13,7 +13,7 @@ def _format_quote_warnings(quote_warnings: List[Tuple[QuoteWarnings, int]], text
             text[warning_location],
             (
                 text[max(0, warning_location - CONTEXT_RADIUS) : warning_location]
-                + f">>>{text[warning_location]}<<<"
+                + f"{text[warning_location]}\u0347"
                 + text[
                     warning_location
                     + 1 : min(len(text), warning_location + CONTEXT_RADIUS + 1)
